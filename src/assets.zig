@@ -25,7 +25,6 @@ const Self = @This();
 
 pub fn init(renderer: *c.SDL_Renderer) !void {
     renderer_ptr = renderer;
-
     const rwop = c.SDL_RWFromConstMem(
         @ptrCast(heroes_png),
         @intCast(heroes_png.len),
@@ -34,13 +33,7 @@ pub fn init(renderer: *c.SDL_Renderer) !void {
         return error.SDLInitializationFailed;
     };
 
-    const surface = c.IMG_Load_RW(rwop, 0) orelse {
-        c.SDL_Log("Unable to load png: %s", c.SDL_GetError());
-        return error.SDLInitializationFailed;
-    };
-    defer c.SDL_FreeSurface(surface);
-
-    heroes_texture = c.SDL_CreateTextureFromSurface(renderer, surface) orelse {
+    heroes_texture = c.IMG_LoadTextureTyped_RW(renderer, rwop, 0, "PNG") orelse {
         c.SDL_Log("Unable to create texture from surface: %s", c.SDL_GetError());
         return error.SDLInitializationFailed;
     };

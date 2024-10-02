@@ -15,7 +15,15 @@ The file game.zig implements the run() loop and the main functions that must be 
 - update() reads the keyboard events. It should update all other game elements
 - draw() draws the frame to the window. After drawing it calls SDL_Present()
 - quit() It is called by run() on quit. It deallocates what has been allocated during init()
-  
-## Some Screenshots
+
+## Embedded Assets
+
+I don't like to depend on the location of the assets to load them at runtime from the disk.
+For this reason I created the assets folder and the assets.zig file.
+The main game has to call assets.init() in its init() function to be able to access them.
+The assets themselves are embedded using the @embedFile() directive.
+They can be read using the c.IMG_LoadTextureTyped_RW()
+
+## Screenshot
 
 ![alt text](<screenshot.png>)
